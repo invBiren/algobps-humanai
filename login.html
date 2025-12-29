@@ -1,0 +1,19 @@
+<input id="key" placeholder="API Key">
+<input id="user" placeholder="User ID">
+<input id="pass" type="password" placeholder="Password">
+<button onclick="go()">Login</button>
+
+<script>
+async function go(){
+  const r = await fetch("/auth/login",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      api_key:key.value,
+      username:user.value,
+      password:pass.value
+    })
+  });
+  alert(await r.text());
+}
+</script>

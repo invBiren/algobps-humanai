@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>Portfolio PnL</h2>
+<canvas id="pnl"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="module">
+import { api } from "./js/api.js";
+
+const ctx = document.getElementById("pnl");
+const data = { labels: [], datasets: [{ label: "PnL", data: [] }] };
+const chart = new Chart(ctx, { type: "line", data });
+
+setInterval(async () => {
+  const res = await api("/trade/pnl");
+  data.labels.push(new Date().toLocaleTimeString());
+  data.datasets[0].data.push(res.pnl);
+  chart.update();
+}, 2000);
+</script>
+</body>
+</html>

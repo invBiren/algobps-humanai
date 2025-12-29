@@ -1,0 +1,52 @@
+const API_BASE = 'http://127.0.0.1:8000';
+<!DOCTYPE html>
+<html>
+<head>
+<title>Strategy Builder</title>
+<style>
+body{font-family:Arial;padding:20px}
+select,input{padding:5px;margin:5px}
+#conn{position:fixed;top:5px;right:10px}
+</style>
+</head>
+<body>
+
+<div id="conn">🔴</div>
+<h2>Strategy Builder</h2>
+
+Indicator:
+<select id="ind">
+<option>RSI</option>
+<option>EMA</option>
+<option>VWAP</option>
+</select><br>
+
+Value: <input id="val" value="30"><br>
+
+<button onclick="save()">Save Strategy</button>
+
+<script>
+const API="http://127.0.0.1:8000";
+
+function save(){
+fetch(`${API}/strategy`,{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+indicator:ind.value,
+value:parseFloat(val.value)
+})
+});
+alert("Strategy saved");
+}
+
+setInterval(()=>{
+fetch(`${API}/status`).then(r=>r.json()).then(d=>{
+conn.innerHTML=d.connected?"🟢 Connected":"🔴 Disconnected";
+});
+},2000);
+</script>
+
+</body>
+</html>
+

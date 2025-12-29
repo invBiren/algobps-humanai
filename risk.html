@@ -1,0 +1,46 @@
+const API_BASE = 'http://127.0.0.1:8000';
+<!DOCTYPE html>
+<html>
+<head>
+<title>Risk Guard</title>
+<style>
+body{font-family:Arial;padding:20px}
+input{padding:5px;margin:5px}
+#conn{position:fixed;top:5px;right:10px}
+</style>
+</head>
+<body>
+
+<div id="conn">🔴</div>
+<h2>Risk Guard</h2>
+
+Trailing SL (%) <input id="tsl" value="1"><br>
+MTM Stop Loss <input id="mtm" value="-5000"><br>
+
+<button onclick="save()">Save Risk</button>
+
+<script>
+const API="http://127.0.0.1:8000";
+
+function save(){
+fetch(`${API}/risk`,{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+trailing_sl:parseFloat(tsl.value),
+mtm_stop:parseFloat(mtm.value)
+})
+});
+alert("Risk saved");
+}
+
+setInterval(()=>{
+fetch(`${API}/status`).then(r=>r.json()).then(d=>{
+conn.innerHTML=d.connected?"🟢 Connected":"🔴 Disconnected";
+});
+},2000);
+</script>
+
+</body>
+</html>
+

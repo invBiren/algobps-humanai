@@ -1,0 +1,45 @@
+const API_BASE = 'http://127.0.0.1:8000';
+<!DOCTYPE html>
+<html>
+<head>
+<title>Order Book</title>
+<style>
+body{font-family:Arial;padding:20px}
+table{width:100%;border-collapse:collapse}
+th,td{border:1px solid #ccc;padding:8px}
+#conn{position:fixed;top:5px;right:10px}
+</style>
+</head>
+<body>
+
+<div id="conn"></div>
+<h2>Orders</h2>
+<table>
+<thead><tr><th>ID</th><th>Symbol</th><th>Qty</th><th>Status</th></tr></thead>
+<tbody id="rows"></tbody>
+</table>
+
+<script>
+const API="http://127.0.0.1:8000";
+
+setInterval(()=>{
+fetch(API+"/status").then(r=>r.json()).then(d=>{
+conn.innerHTML=d.connected?"🟢 Connected":"🔴 Disconnected"
+})
+},2000)
+
+function load(){
+fetch(API+"/orders").then(r=>r.json()).then(d=>{
+rows.innerHTML=""
+d.forEach(o=>{
+rows.innerHTML+=`<tr><td>${o.id}</td><td>${o.symbol}</td><td>${o.qty}</td><td>${o.status}</td></tr>`
+})
+})
+}
+load()
+setInterval(load,3000)
+</script>
+
+</body>
+</html>
+

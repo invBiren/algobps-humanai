@@ -1,0 +1,40 @@
+const API_BASE = 'http://127.0.0.1:8000';
+<!DOCTYPE html>
+<html>
+<head>
+<title>Settings</title>
+<style>
+body{font-family:Arial;padding:20px}
+#conn{position:fixed;top:5px;right:10px}
+</style>
+</head>
+<body>
+
+<div id="conn">🔴</div>
+<h2>Trading Mode</h2>
+
+<button onclick="setMode(true)">🟢 LIVE mStock</button>
+<button onclick="setMode(false)">🟡 PAPER</button>
+
+<script>
+const API="http://127.0.0.1:8000";
+
+function setMode(live){
+fetch(`${API}/mode`,{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({live})
+});
+alert(live?"LIVE ENABLED":"PAPER MODE");
+}
+
+setInterval(()=>{
+fetch(`${API}/status`).then(r=>r.json()).then(d=>{
+conn.innerHTML=d.connected?"🟢 Connected":"🔴 Disconnected";
+});
+},2000);
+</script>
+
+</body>
+</html>
+

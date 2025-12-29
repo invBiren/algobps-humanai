@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h3>Live PnL</h3>
+<pre id="p"></pre>
+
+<script>
+const ws=new WebSocket("ws://127.0.0.1:8000/ws/pnl")
+ws.onmessage=e=>{
+ let d=JSON.parse(e.data)
+ let t=0
+ d.data.forEach(x=>t+=x.pnl)
+ p.textContent="Total PnL: ₹"+t
+}
+</script>
+</body>
+</html>

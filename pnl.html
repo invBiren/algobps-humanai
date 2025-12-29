@@ -1,0 +1,16 @@
+const API_BASE = 'http://127.0.0.1:8000';
+<!DOCTYPE html>
+<html>
+<body>
+<canvas id="c"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+fetch(API_BASE + "http://127.0.0.1:8000/pnl/equity")
+.then(r=>r.json())
+.then(d=>{
+ new Chart(c,{type:"line",data:{labels:d.map((_,i)=>i),datasets:[{data:d}]}})
+})
+</script>
+</body>
+</html>
+

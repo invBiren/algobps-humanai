@@ -1,0 +1,56 @@
+const API_BASE = 'http://127.0.0.1:8000';
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>AlgoBPS Login</title>
+<style>
+body{font-family:Arial;background:#f4f6f8;padding:40px}
+.box{background:#fff;padding:20px;width:360px;border-radius:6px}
+input,button{width:100%;padding:10px;margin-top:10px}
+button{background:#1976d2;color:#fff;border:none}
+</style>
+</head>
+
+<body>
+<div class="box">
+<h3>mStock Login</h3>
+
+<input id="api_key" placeholder="API Key">
+<input id="username" placeholder="Client Code">
+<input id="password" type="password" placeholder="Password">
+
+<button onclick="sendOtp()">Send OTP</button>
+
+<input id="otp" placeholder="OTP">
+<button onclick="verifyOtp()">Verify & Enter</button>
+</div>
+
+<script>
+const API = "http://127.0.0.1:8000";
+
+async function sendOtp(){
+  const f = new FormData();
+  f.append("api_key", api_key.value);
+  f.append("username", username.value);
+  f.append("password", password.value);
+
+  const r = await fetch(API+"/auth/login",{method:"POST",body:f});
+  if(!r.ok){alert("Login failed");return;}
+  alert("OTP sent to registered mobile");
+}
+
+async function verifyOtp(){
+  const f = new FormData();
+  f.append("api_key", api_key.value);
+  f.append("otp", otp.value);
+
+  const r = await fetch(API+"/auth/session",{method:"POST",body:f});
+  if(!r.ok){alert("Invalid OTP");return;}
+
+  window.location="dashboard.html";
+}
+</script>
+</body>
+</html>
+

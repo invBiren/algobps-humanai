@@ -1,0 +1,35 @@
+const API_BASE = 'http://127.0.0.1:8000';
+<!DOCTYPE html>
+<html>
+<body>
+<h3>Place Order</h3>
+
+<input id="s" placeholder="Symbol">
+<input id="q" placeholder="Qty">
+<select id="side">
+<option>BUY</option>
+<option>SELL</option>
+</select>
+
+<button onclick="go()">Place</button>
+
+<script>
+async function go(){
+ await fetch(API_BASE + "http://127.0.0.1:8000/order/place",{
+  method:"POST",
+  headers:{"Content-Type":"application/json"},
+  body:JSON.stringify({
+   exchange:"NSE",
+   tradingsymbol:s.value,
+   quantity:+q.value,
+   transaction_type:side.value,
+   order_type:"MARKET",
+   product:"MIS"
+  })
+ })
+ alert("Order placed")
+}
+</script>
+</body>
+</html>
+

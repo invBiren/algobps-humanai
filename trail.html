@@ -1,0 +1,17 @@
+const API_BASE = 'http://127.0.0.1:8000';
+<h3>Trailing SL</h3>
+<input id="s" placeholder="Symbol">
+<input id="sl" placeholder="New SL">
+<button onclick="trail()">Update</button>
+
+<script>
+function trail(){
+ fetch(API_BASE + "http://127.0.0.1:8000/trail",{
+  method:"POST",
+  headers:{"Content-Type":"application/json"},
+  body:JSON.stringify({symbol:s.value,new_sl:parseFloat(sl.value)})
+ })
+ alert("Updated")
+}
+</script>
+
