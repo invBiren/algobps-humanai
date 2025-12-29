@@ -8,13 +8,7 @@
 
 <canvas id="c"></canvas>
 
-<script>
-const s=new URLSearchParams(location.search).get("symbol")
-const data=[100,102,101,105,110]
-new Chart(c,{type:"line",
- data:{labels:data.map((_,i)=>i),
- datasets:[{label:s,data}]}})
-</script>
+<script  src="assets/scripts/customScripts.js"></script>
 
 </body>
 </html>

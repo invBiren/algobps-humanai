@@ -43,10 +43,16 @@ async function sendOtp(){
 async function verifyOtp(){
   const f = new FormData();
   f.append("api_key", api_key.value);
-  f.append("otp", otp.value);
+  // mStock Type A expects: api_key, request_token (OTP), checksum
+  // checksum 'L' is used per docs for this flow
+  f.append("request_token", otp.value);
+  f.append("checksum", "L");
 
+  console.log('Sending session request', { api_key: api_key.value, request_token: otp.value });
   const r = await fetch(API+"/auth/session",{method:"POST",body:f});
-  if(!r.ok){alert("Invalid OTP");return;}
+  const text = await r.text();
+  console.log('Session response status:', r.status, 'body:', text);
+  if(!r.ok){ alert("Invalid OTP or session error: " + text); return; }
 
   window.location="dashboard.html";
 }

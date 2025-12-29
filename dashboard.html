@@ -1,58 +1,84 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>AlgoBPS Dashboard</title>
-<style>
-body{font-family:Arial;background:#f5f7fa;padding:20px}
-.card{background:#fff;padding:15px;margin-bottom:15px;border-radius:6px}
-button{padding:8px 14px;margin-right:5px}
-</style>
+  <title>AlgoBPS Dashboard</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #f5f7fa;
+      padding: 20px
+    }
+
+    .card {
+      background: #fff;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 6px
+    }
+
+    button {
+      padding: 8px 14px;
+      margin-right: 5px
+    }
+  </style>
 </head>
 
 <body>
 
-<h2>AlgoBPS Dashboard</h2>
+  <h2>AlgoBPS Dashboard</h2>
 
-<div class="card">
-<b>Algo:</b>
-<button onclick="fetch('/algo/start')">Start</button>
-<button onclick="fetch('/algo/stop')">Stop</button>
-<span id="state"></span>
-</div>
+  <div class="card">
+    <b>Algo:</b>
+    <button onclick="fetch('/algo/start')">Start</button>
+    <button onclick="fetch('/algo/stop')">Stop</button>
+    <span id="state"></span>
+  </div>
 
-<div class="card">
-<b>Trading</b><br><br>
-<button onclick="trade('buy')">BUY NIFTY</button>
-<button onclick="trade('sell')">SELL NIFTY</button>
-<button onclick="fetch('/trade/squareoff',{method:'POST'})">SQUARE OFF</button>
-</div>
+  <div class="card">
+    <b>Trading</b><br><br>
+    <button onclick="trade('buy')">BUY NIFTY</button>
+    <button onclick="trade('sell')">SELL NIFTY</button>
+    <button onclick="fetch('/trade/squareoff',{method:'POST'})">SQUARE OFF</button>
+  </div>
 
-<div class="card">
-<b>Positions</b>
-<pre id="pos"></pre>
-</div>
+  <div class="card">
+    <b>Positions</b>
+    <pre id="pos"></pre>
+  </div>
 
-<div class="card">
-<b>Live PnL</b>
-<h3 id="pnl">0</h3>
-</div>
+  <div class="card">
+    <b>Live PnL</b>
+    <h3 id="pnl">0</h3>
+  </div>
 
-<script>
-setInterval(async()=>{
-  const p = await fetch('/trade/positions').then(r=>r.json())
-  pos.innerText = JSON.stringify(p,null,2)
+  <script>
+    setInterval(async () => {
+      const p = await fetch('/trade/positions').then(r => r.json())
+      pos.innerText = JSON.stringify(p, null, 2)
 
-  const pnlr = await fetch('/trade/pnl').then(r=>r.json())
-  pnl.innerText = pnlr.pnl
+      const pnlr = await fetch('/trade/pnl').then(r => r.json())
+      pnl.innerText = pnlr.pnl
 
-  const s = await fetch('/algo/status').then(r=>r.json())
-  state.innerText = s.running ? "RUNNING" : "STOPPED"
-},1000)
+      const s = await fetch('/algo/status').then(r => r.json())
+      state.innerText = s.running ? "RUNNING" : "STOPPED"
+    }, 1000)
 
-function trade(side){
- fetch(`/trade/${side}/NIFTY`,{method:'POST'})
-}
-</script>
+    function trade(side) {
+      fetch(`/trade/${side}/NIFTY`, { method: 'POST' })
+    }
+  </script>
+
+  <script src="assets/scripts/algo.js"></script>
+  <script src="assets/scripts/api.js"></script>
+  <script src="assets/scripts/customScripts.js"></script>
+  <script src="assets/scripts/dashboard.js"></script>
+  <script src="assets/scripts/ltp.js"></script>
+  <script src="assets/scripts/toast.js"></script>
+  <script src="assets/scripts/trade.js"></script>
+  <script src="assets/scripts/watchlist.js"></script>
+  <script src="assets/scripts/ws.js"></script>
 
 </body>
+
 </html>
